@@ -26,25 +26,23 @@
 // GPIO port a is touching AHB1
 // We need to go through AHB1 to supply clock to GPIO port a
 #include <stdint.h>
-
-#define PERIPHERAL_BASE           (0x40000000UL)
-#define AHB1_PERIPHERAL_OFFSET    (0x00020000UL)
-#define AHB1_PERIPHERAL_BASE      (PERIPHERAL_BASE + AHB1_PERIPHERAL_OFFSET)
-
-#define GPIOA_OFFSET              (0x0000UL)
-#define GPIOA_BASE                (AHB1_PERIPHERAL_BASE + GPIOA_OFFSET)
-
-// we also need the RCC to provide the clock
-#define RCC_OFFSET                (0x3800UL)
-#define RCC_BASE                  (AHB1_PERIPHERAL_BASE + RCC_OFFSET)
-
-
-#if !defined(__SOFT_FP__) && defined(__ARM_FP)
-  #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
-#endif
+#include <stdio.h>
+#include "NucleoFpga.h"
 
 int main(void)
 {
-    /* Loop forever */
-	for(;;);
+  // Enable clock access to GPIOA
+  RCC_AHB1ENR |= GPIOAEN;
+
+  // Set PA5 as output
+  // Set bit 10 high
+  // Set bit 11 low
+  GPIOA_MODER |= (1U<<10);
+  GPIOA_MODER &=~ (1U<<11);
+
+  while (1) {
+    GPIOA_ODR ^= LED_PIN;
+    for (int i = 0; i < 1000000; i++) {}
+  }
+  return 0;
 }
