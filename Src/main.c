@@ -32,17 +32,17 @@
 int main(void)
 {
   // Enable clock access to GPIOA
-  RCC_AHB1ENR |= GPIOAEN;
+  RCC->AHB1ENR |= GPIOAEN;
 
   // Set PA5 as output
   // Set bit 10 high
   // Set bit 11 low
-  GPIOA_MODER |= (1U<<10);
-  GPIOA_MODER &=~ (1U<<11);
+  GPIOA->MODER |= (1U<<10);
+  GPIOA->MODER &=~ (1U<<11);
 
   while (1) {
-    GPIOA_ODR ^= LED_PIN;
-    for (int i = 0; i < 1000000; i++) {}
+    GPIOA->ODR ^= LED_PIN;
+    for (int i = 0; i < 100000; i++) {}
   }
   return 0;
 }
