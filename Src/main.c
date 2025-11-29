@@ -28,6 +28,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "NucleoFpga.h"
+#include "stm32f446xx.h"
 
 int main(void)
 {

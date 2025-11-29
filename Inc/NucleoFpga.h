@@ -5,29 +5,10 @@
 #ifndef NUCLEO_FPGA_H
 #define NUCLEO_FPGA_H
 
+#include "stm32f446xx.h"
 // Memory Mapping -> peripheral base to find location
 // of Peripheral mapping in memory
 #define PERIPHERAL_BASE           (0x40000000UL)
-
-#define __IO volatile
-
-typedef struct{
-  __IO uint32_t MODER;  // GPIO port mode register offset: 0x00
-  __IO uint32_t OTYPER; // GPIO port output type register offset: 0x04
-  __IO uint32_t OSPEEDR;// GPIO port output speed register offset: 0x08
-  __IO uint32_t PUPDR;  // GPIO port pull-up/pull down register offset: 0x0C
-  __IO uint32_t IDR;    // GPIO port input data register offset: 0x10
-  __IO uint32_t ODR;    // GPIO port output data register offset: 0x14
-  __IO uint32_t BSRR;   // GPIO port bit set/reset register offset: 0x18
-  __IO uint32_t LCKR;   // GPIO port configuration lock register offset: 0x1C
-  __IO uint32_t AFR[2]; // GPIO alternate function registers offset: 0x20 - 0x2 GPIO port input data register offset: 0x10
-}GPIO_TypeDef;
-
-typedef struct{
-  __IO uint32_t dummy[12];
-  __IO uint32_t AHB1ENR;  // RCC AHB1 enable register offset: 0x30
-}RCC_TypeDef;
-
 
 // We looked at the board block diagram to determine
 // that GPIO Port A is connected to AHB1.
@@ -43,7 +24,7 @@ typedef struct{
 // (SHIFT ONE TO POSITION 0)
 // 0000 0000 0000 0000 0000 0000 0000 0001
 
-#define GPIOAEN                   (1U<<0) 
+#define GPIOAEN                   (1U<<0)
 #define GPIOA                     ((GPIO_TypeDef*) GPIOA_BASE)
 
 // we also need the RCC to provide the clock
@@ -56,6 +37,5 @@ typedef struct{
 #define LED_PIN                   PIN5
 
 #define MAX_LED_LOOPS             10000000
-
 
 #endif
