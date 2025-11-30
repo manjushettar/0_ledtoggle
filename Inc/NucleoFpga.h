@@ -38,4 +38,16 @@
 
 #define MAX_LED_LOOPS             10000000
 
+#define PIN5_BSR_RESET            (1U<<21)
+#define LED_PIN_RESET             PIN5_BSR_RESET
+
+#define PIN13                     (1U<<13)
+#define BTN_PIN                   PIN13
+
+#define GPIOC_OFFSET              (0x0800UL)
+#define GPIOC_BASE                (AHB1_PERIPHERAL_BASE + GPIOC_OFFSET)
+
+#define GPIOCEN                   (1U<<2)
+#define GPIOC                     ((GPIO_TypeDef*) GPIOC_BASE)
+
 #endif
