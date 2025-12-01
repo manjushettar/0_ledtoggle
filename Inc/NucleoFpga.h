@@ -8,6 +8,9 @@
 #include "stm32f446xx.h"
 // Memory Mapping -> peripheral base to find location
 // of Peripheral mapping in memory
+
+
+
 #define PERIPHERAL_BASE           (0x40000000UL)
 
 // We looked at the board block diagram to determine

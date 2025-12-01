@@ -27,31 +27,11 @@
 // We need to go through AHB1 to supply clock to GPIO port a
 #include <stdint.h>
 #include <stdio.h>
-#include "NucleoFpga.h"
 #include "stm32f446xx.h"
 
 int main(void)
 {
-  // Enable clock access to GPIOA
-  RCC->AHB1ENR |= GPIOAEN;
-  RCC->AHB1ENR |= GPIOCEN;
-
-  // Set PA5 as output
-  // Set bit 10 high
-  // Set bit 11 low
-  GPIOA->MODER |= (1U<<10);
-  GPIOA->MODER &=~ (1U<<11);
-
-  GPIOC->MODER &=~ (1U<<26);
-  GPIOC->MODER &=~ (1U<<27);
-
-  while (1) {
-    if(GPIOC->IDR & BTN_PIN){
-      GPIOA->BSRR = LED_PIN;
-    }
-    else{
-      GPIOA->BSRR = LED_PIN_RESET;
-    }
-  }
+  uart2_tx_init();
+  printf("Hello from my board via UART...\n\r");
   return 0;
 }
