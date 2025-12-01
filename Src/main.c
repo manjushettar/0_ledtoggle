@@ -28,10 +28,34 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "stm32f446xx.h"
+#include "uart.h"
+#include "NucleoFpga.h"
+
+char key;
 
 int main(void)
 {
-  uart2_tx_init();
-  printf("Hello from my board via UART...\n\r");
+  uart2_rxtx_init();
+  
+  RCC->AHB1ENR |= GPIOAEN;
+  GPIOA->MODER |= (1U<<10);
+  GPIOA->MODER &=~ (1U<<11);
+  while(1)
+  {
+    // Non-blocking read: only read if data is available
+    if(USART2->SR & SR_RXNE) {
+      key = uart2_read();
+    }
+    
+    // Blink LED when key is '1'
+    if(key == '1'){
+      GPIOA->ODR |= LED_PIN;
+      for(volatile int i = 0; i < 1000000; i++); // Delay
+      GPIOA->ODR &=~ LED_PIN;
+      for(volatile int i = 0; i < 1000000; i++); // Delay
+    } else if(key == '0') {
+      GPIOA->ODR &=~ LED_PIN;
+    }
+  }
   return 0;
 }

@@ -53,4 +53,5 @@
 #define GPIOCEN                   (1U<<2)
 #define GPIOC                     ((GPIO_TypeDef*) GPIOC_BASE)
 
+void enable_ahb1_clock_access(int gpioPort);
 #endif
